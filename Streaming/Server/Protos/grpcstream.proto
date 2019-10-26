@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package GrpcStream;
+
+service StreamTest {
+
+  // 客户端流式 RPC
+  rpc ClientStream(stream ClientStreamRequest) returns (ClientStreamResponse) {}
+
+  // 服务端流式 RPC
+  rpc ServerStream(ServerStreamRequest) returns (stream ServerStreamResponse) {}
+
+  // 双向流程 RPC
+  rpc BidirectionalStream(stream BidirectionalStreamRequest) returns (stream BidirectionalStreamResponse) {}
+}
+
+message ClientStreamRequest {
+  // 文件路径
+  string file_path = 1;	
+  // 数据
+  bytes data = 2;
+}
+
+message ClientStreamResponse {
+  // 成功状态
+  bool success = 1;
+}
+
+message ServerStreamRequest {
+  // 文件路径
+  string file_path = 1;
+}
+
+message ServerStreamResponse {
+  // 数据
+  bytes data = 1;
+}
+
+message BidirectionalStreamRequest {
+  // 文件路径
+  string file_path = 1;
+}
+message BidirectionalStreamResponse {
+  // 文件路径
+  string file_path = 1;
+  // 数据
+  bytes data = 2;
+}
