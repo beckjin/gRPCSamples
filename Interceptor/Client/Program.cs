@@ -11,7 +11,7 @@ namespace Client
     {
         static async Task Main(string[] args)
         {
-            var channel = GrpcChannel.ForAddress("https://localhost:5001");
+            var channel = GrpcChannel.ForAddress("http://localhost:3333");
             var invoker = channel.Intercept(new ClientInterceptor());
             var client = new Greeter.GreeterClient(invoker);
             var reply = await client.SayHelloAsync(new HelloRequest { Name = "Beck" });

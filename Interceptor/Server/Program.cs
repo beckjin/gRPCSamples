@@ -1,10 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+using MD.Base.Service.FileHandlers;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace Server
 {
@@ -21,6 +20,13 @@ namespace Server
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.ConfigureKestrel(options =>
+                    {
+                        var port = JsonHandler.GetRoot().GetSection("Port").Value;
+                        options.ListenLocalhost(Convert.ToInt16(port), 
+                            o => o.Protocols = HttpProtocols.Http2);
+                    });
+
                     webBuilder.UseStartup<Startup>();
                 });
     }
